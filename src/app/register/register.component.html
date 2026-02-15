@@ -1,0 +1,60 @@
+<div class="login-wrapper">
+  <form class="login-form" [formGroup]="registerForm" (ngSubmit)="onSubmit()">
+
+    <h2 class="title">Create Account</h2>
+    <p class="subtitle">Please fill in your details to register</p>
+
+    <div class="user-name-details">
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>First Name</mat-label>
+        <input matInput type="text" formControlName="firstName">
+      </mat-form-field>
+
+      <mat-form-field appearance="outline" class="full-width">
+        <mat-label>Last Name</mat-label>
+        <input matInput type="text" formControlName="lastName">
+      </mat-form-field>
+    </div>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Email</mat-label>
+      <input matInput type="email" formControlName="email" placeholder="Ex. pat@example.com">
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Password</mat-label>
+      <input matInput [type]="hidePassword() ? 'password' : 'text'" formControlName="password">
+      <button mat-icon-button matSuffix type="button" (click)="clickEvent($event)">
+        <mat-icon>{{ hidePassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Confirm Password</mat-label>
+      <input matInput [type]="hideConfirmPassword() ? 'password' : 'text'" formControlName="confirmPassword">
+      <button mat-icon-button matSuffix type="button" (click)="clickEvent($event)">
+        <mat-icon>{{ hideConfirmPassword() ? 'visibility_off' : 'visibility' }}</mat-icon>
+      </button>
+    </mat-form-field>
+
+    <mat-form-field appearance="outline" class="full-width">
+      <mat-label>Role</mat-label>
+      <mat-select formControlName="role">
+        <mat-option value="option">User</mat-option>
+        <mat-option value="option">Admin</mat-option>
+      </mat-select>
+    </mat-form-field>
+
+    <button mat-raised-button color="primary" class="full-width" type="submit">
+      Register
+    </button>
+
+    <div class="bottom-text">
+      <span>Already have an account?</span>
+      <button type="button" mat-button color="primary" (click)="goToLogin()">
+        Login
+      </button>
+    </div>
+
+  </form>
+</div>

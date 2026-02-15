@@ -1,0 +1,90 @@
+<div class="chat-container">
+
+  <!-- Left Panel - Chat List -->
+  <div class="chat-list">
+    <h3>Chats</h3>
+
+    <!-- Tabs -->
+  <div class="chat-tabs">
+    <div 
+      class="tab"
+      [class.active]="selectedTab === 'all'"
+      (click)="changeTab('all')">
+      All
+    </div>
+
+    <div 
+      class="tab"
+      [class.active]="selectedTab === 'received'"
+      (click)="changeTab('received')">
+      Received
+    </div>
+
+    <div 
+      class="tab"
+      [class.active]="selectedTab === 'sent'"
+      (click)="changeTab('sent')">
+      Sent
+    </div>
+  </div>
+
+  <!-- Single Chat List -->
+  <div class="chat-items">
+    <div 
+      class="chat-item"
+      *ngFor="let chat of filteredChats; trackBy: trackByChat"
+      (click)="selectChat(chat)">
+
+      <div class="chat-name">{{ chat.name }}</div>
+      <div class="chat-last-message">{{ chat.lastMessage }}</div>
+
+    </div>
+  </div>
+    
+  <button mat-raised-button color="primary" (click)="openCompose()" class="new-message-btn">
+    New Message
+  </button>
+  </div>
+
+  <!-- Right Panel - Chat Window -->
+  <div class="chat-window" *ngIf="selectedChat">
+
+    <!-- Chat Header -->
+    <div class="chat-header">
+      <h3>{{ selectedChat.name }}</h3>
+    </div>
+
+    <!-- Messages Area -->
+    <div class="messages">
+      <div 
+        *ngFor="let message of selectedChat.messages; trackBy: trackByMessage"
+        [ngClass]="{
+          'message': true,
+          'sent': message.sender === currentUser,
+          'received': message.sender !== currentUser
+        }"
+      >
+        {{ message.text }}
+      </div>
+    </div>
+
+    <!-- Message Input -->
+    <div class="chat-input">
+      <input
+        type="text"
+        [(ngModel)]="newMessage"
+        placeholder="Type a message..."
+      />
+      <button mat-raised-button color="primary" (click)="sendMessage()">
+        Send
+      </button>
+    </div>
+  </div>
+
+
+  <!-- Empty State -->
+  <!-- <div class="chat-window empty" *ngIf="!selectedChat">
+    <p>Select a chat to start messaging</p>
+  </div> -->
+
+</div>

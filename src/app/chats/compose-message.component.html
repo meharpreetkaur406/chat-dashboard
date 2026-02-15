@@ -1,0 +1,44 @@
+<mat-card class="compose-card">
+
+  <!-- TO FIELD -->
+  <mat-form-field class="full-width">
+    <mat-label>To</mat-label>
+
+    <mat-chip-grid #chipGrid aria-label="User selection">
+      <mat-chip-row *ngFor="let user of selectedUsers" 
+                    (removed)="remove(user)">
+        {{user.username}}
+        <button matChipRemove>
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-chip-row>
+
+      <input
+        placeholder="Search users..."
+        [matAutocomplete]="auto"
+        [formControl]="userCtrl"
+        [matChipInputFor]="chipGrid"
+        (focus)="openUserList()"
+        (click)="openUserList()"
+      />
+    </mat-chip-grid>
+
+    <mat-autocomplete #auto="matAutocomplete"
+      (optionSelected)="selected($event)">
+      <mat-option *ngFor="let user of filteredUsers | async" [value]="user">
+        {{user.username}} ({{user.email}})
+      </mat-option>
+    </mat-autocomplete>
+  </mat-form-field>
+
+  <!-- MESSAGE -->
+  <mat-form-field class="full-width">
+    <mat-label>Message</mat-label>
+    <textarea matInput [(ngModel)]="messageText"></textarea>
+  </mat-form-field>
+
+  <button mat-raised-button color="primary" (click)="sendMessage()">
+    Send
+  </button>
+
+</mat-card>

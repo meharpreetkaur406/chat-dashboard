@@ -1,0 +1,32 @@
+.dashboard-container {
+  height: 100vh;
+}
+
+.sidenav {
+  width: 250px;
+  padding: 15px;
+}
+
+.logo {
+  font-size: 20px;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.toolbar {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+.content {
+  padding: 20px;
+}
+
+.logout-btn {
+  margin-top: 30px;
+}
