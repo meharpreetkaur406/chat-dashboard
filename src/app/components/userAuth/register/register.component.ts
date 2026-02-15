@@ -6,7 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatIconModule} from '@angular/material/icon';
 import {MatButtonModule} from '@angular/material/button';
 import {MatSelectModule} from '@angular/material/select';
-import { UserRegisterService } from '../services/user-register.service';
+import { UserRegisterService } from '../../../services/user-register.service';
 import { Router } from '@angular/router';
 
 @Component({
