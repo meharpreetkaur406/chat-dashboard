@@ -61,16 +61,19 @@ export class LoginComponent {
         "Password": formData.password
     }
 
-    this.userLoginService.register(newFormData).subscribe({
+    this.userLoginService.login(newFormData).subscribe({
       next: (response:any) => {
         console.log('Success:', response);
         const user = response;
         console.log("user on login page: ", user)
         this.userSessionService.setUser(user);
-
+        sessionStorage.setItem('token', response.token); // save JWT
         this.router.navigate(['/dashboard']);
       },
       error: (error:any) => {
+        alert(
+          "Invalid credentials"
+        );
         console.error('Error:', error);
       }
     });

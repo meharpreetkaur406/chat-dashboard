@@ -45,7 +45,7 @@ export class DashboardComponent {
     }
 
     logout() {
-        localStorage.clear();
+        sessionStorage.clear();
         this.router.navigate(['/login']);
     }
 }

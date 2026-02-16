@@ -9,9 +9,9 @@ export class ChatService {
 
     constructor(private http: HttpClient) {}
     sendMessage(data: any) {
-        return this.http.post(`${this.apiUrl}/messages/send`, data);
+        return this.http.post(`${this.apiUrl}/messages/send`, data); // interceptor adds JWT
     }
     getAllUsers() {
-        return this.http.get<any[]>(`${this.apiUrl}/users`);
+        return this.http.get<any[]>(`${this.apiUrl}/users`); // interceptor adds JWT
     }
 }
