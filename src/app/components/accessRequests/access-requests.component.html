@@ -1,0 +1,10 @@
+<h2>Pending Registrations</h2>
+
+<div *ngFor="let user of users" class="card">
+    <div *ngIf="user.requestedRole != null">
+        <p>{{user.username}} (requested: {{user.requestedRole}})</p>
+
+        <button (click)="approve(user,'user')">Approve as User</button>
+        <button (click)="approve(user,'admin')">Approve as Admin</button>
+    </div>
+</div>

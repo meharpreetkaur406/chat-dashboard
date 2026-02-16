@@ -7,7 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { UserLoginService } from '../../services/user-login.service';
 import { Router } from '@angular/router';
-import { RouterOutlet, ActivatedRoute } from '@angular/router';
+import { RouterOutlet, ActivatedRoute , RouterLink, RouterLinkActive} from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
@@ -21,6 +21,9 @@ import { AuthService } from '../../services/auth.service';
   imports: [
     CommonModule,
     ReactiveFormsModule,
+    RouterOutlet,
+    RouterLink,
+    RouterLinkActive,
     MatFormFieldModule,
     MatInputModule,
     MatIconModule,

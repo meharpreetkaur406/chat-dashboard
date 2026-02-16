@@ -54,7 +54,7 @@ export class RegisterComponent {
     ]),
     password: new FormControl('', Validators.required),
     confirmPassword: new FormControl('', Validators.required),
-    role: new FormControl('', Validators.required)
+    role: new FormControl('user', Validators.required)
   });
 
   
@@ -84,6 +84,7 @@ export class RegisterComponent {
     this.userRegisterService.register(newFormData).subscribe({
       next: (response:any) => {
         console.log('Success:', response);
+        alert("Registration request sent to admin. Wait for approval.");
         this.router.navigate(['/login']);
       },
       error: (error:any) => {

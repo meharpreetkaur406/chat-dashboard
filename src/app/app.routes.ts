@@ -6,6 +6,7 @@ import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ChatsComponent } from './components/chats/chats.component';
 import { AuthGuard } from './guards/auth.guard';
 import { RoleGuard } from './guards/role.guard';
+import { AccessRequestsComponent } from './components/accessRequests/access-requests.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
@@ -15,5 +16,5 @@ export const routes: Routes = [
         path: 'dashboard/:role', 
         component: DashboardComponent, 
         canActivate: [AuthGuard, RoleGuard], 
-        children: [ { path: '', redirectTo: 'chats', pathMatch: 'full' }, { path: 'chats', component: ChatsComponent } ] }
+        children: [ { path: '', redirectTo: 'chats', pathMatch: 'full' }, { path: 'chats', component: ChatsComponent }, { path: 'access-requests', component: AccessRequestsComponent } ] },
 ];
