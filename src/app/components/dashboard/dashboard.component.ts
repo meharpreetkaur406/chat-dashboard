@@ -7,13 +7,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
 import { UserLoginService } from '../../services/user-login.service';
 import { Router } from '@angular/router';
-import { RouterOutlet } from '@angular/router';
+import { RouterOutlet, ActivatedRoute } from '@angular/router';
 import {MatToolbarModule} from '@angular/material/toolbar';
 import {MatSidenavModule} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { UserSessionService } from '../../services/user-session.service';
 
-
+import { AuthService } from '../../services/auth.service';
 
 @Component({
   selector: 'app-dashboard',
@@ -31,17 +31,30 @@ import { UserSessionService } from '../../services/user-session.service';
 })
 export class DashboardComponent {
     username = localStorage.getItem('username');
+    roleFromUrl!: string;
+    actualRole!: string; 
 
     constructor(
       private router: Router,
-      private userSessionService: UserSessionService
+      private userSessionService: UserSessionService,
+      private route: ActivatedRoute,
+      public authService: AuthService
     ) {}
 
     user: any;
 
     ngOnInit() {
       this.user = this.userSessionService.getUser();
-      console.log("Logged in user on dashboard:", this.user);
+      this.roleFromUrl = this.route.snapshot.paramMap.get('role')!;
+      this.actualRole = this.authService.getRole()!;
+    }
+
+    isAdmin() {
+      return this.actualRole === 'admin';
+    }
+
+    isUser() {
+      return this.actualRole === 'user';
     }
 
     logout() {

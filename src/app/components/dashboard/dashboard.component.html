@@ -7,8 +7,8 @@
     </div>
 
     <mat-nav-list>
-      <a mat-list-item routerLink="/dashboard/home">Home</a>
-      <a mat-list-item routerLink="/dashboard/users">Users</a>
+      <a mat-list-item routerLink="/dashboard/analytics">Analytics</a>
+      <a mat-list-item routerLink="/dashboard/access-requests" *ngif="authService.isAdmin()">Access Requests</a>
       <a mat-list-item routerLink="chats">Chats</a>
       <a mat-list-item routerLink="/dashboard/settings">Settings</a>
     </mat-nav-list>
@@ -36,3 +36,4 @@
   </mat-sidenav-content>
 
 </mat-sidenav-container>
+<router-outlet></router-outlet>

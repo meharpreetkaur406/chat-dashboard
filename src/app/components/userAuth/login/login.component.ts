@@ -8,6 +8,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { UserLoginService } from '../../../services/user-login.service';
 import { Router } from '@angular/router';
 import { UserSessionService } from '../../../services/user-session.service';
+import { AuthService } from '../../../services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -28,7 +29,8 @@ export class LoginComponent {
   constructor(
     private router: Router,
     private userLoginService: UserLoginService,
-    private userSessionService: UserSessionService
+    private userSessionService: UserSessionService,
+    private authService: AuthService
   ) {}
 
   hidePassword = signal(true);
@@ -68,7 +70,8 @@ export class LoginComponent {
         console.log("user on login page: ", user)
         this.userSessionService.setUser(user);
         sessionStorage.setItem('token', response.token); // save JWT
-        this.router.navigate(['/dashboard']);
+        const role = this.authService.getRoleFromToken(response.token);
+        this.router.navigate(['/dashboard', role]);
       },
       error: (error:any) => {
         alert(

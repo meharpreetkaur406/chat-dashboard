@@ -5,10 +5,15 @@ import { RegisterComponent } from './components/userAuth/register/register.compo
 import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { ChatsComponent } from './components/chats/chats.component';
 import { AuthGuard } from './guards/auth.guard';
+import { RoleGuard } from './guards/role.guard';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },
     { path: 'register', component: RegisterComponent },
     { path: 'login', component: LoginComponent },
-    { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], children: [ { path: '', redirectTo: 'chats', pathMatch: 'full' }, { path: 'chats', component: ChatsComponent } ] }
+    { 
+        path: 'dashboard/:role', 
+        component: DashboardComponent, 
+        canActivate: [AuthGuard, RoleGuard], 
+        children: [ { path: '', redirectTo: 'chats', pathMatch: 'full' }, { path: 'chats', component: ChatsComponent } ] }
 ];
