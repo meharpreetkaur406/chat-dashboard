@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
 import { App } from './app';
-import { LoginComponent } from './login/login.component';
-import { RegisterComponent } from './register/register.component';
-import { DashboardComponent } from './dashboard/dashboard.component';
-import { ChatsComponent } from './chats/chats.component';
+import { LoginComponent } from './components/userAuth/login/login.component';
+import { RegisterComponent } from './components/userAuth/register/register.component';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
+import { ChatsComponent } from './components/chats/chats.component';
 
 export const routes: Routes = [
     { path: '', redirectTo: 'login', pathMatch: 'full' },

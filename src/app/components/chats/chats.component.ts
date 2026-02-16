@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
-import { SignalrService } from '../services/signalr.service';
+import { SignalrService } from '../../services/signalr.service';
 import { MatDialog, MatDialogModule  } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ComposeMessageComponent } from './compose-message.component';
