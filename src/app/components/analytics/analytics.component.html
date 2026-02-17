@@ -1,0 +1,19 @@
+<mat-grid-list cols="1" rowHeight="400px" gutterSize="16px">
+  <!-- Messages Per Day -->
+  <mat-grid-tile>
+    <mat-card class="analytics-card" style="height: 500px; width:100%;">
+      <mat-card-header>
+        <mat-card-title>Messages Sent Per Day</mat-card-title>
+      </mat-card-header>
+      <mat-card-content height="100%">
+        <canvas baseChart
+                #chart
+                [data]="messagesChartData"
+                [type]="barChartType"
+                [options]="chartOptions"
+                style="height: 400px; width: 100%;">
+        </canvas>
+      </mat-card-content>
+    </mat-card>
+  </mat-grid-tile>
+</mat-grid-list>
