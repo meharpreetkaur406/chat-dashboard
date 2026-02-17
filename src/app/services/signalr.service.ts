@@ -11,7 +11,7 @@ export class SignalrService {
 
   startConnection() {
     this.hubConnection = new signalR.HubConnectionBuilder()
-      .withUrl('http://localhost:5144/chathub', {
+      .withUrl('http://localhost:5144/chathub?userId=${userId}', {
             withCredentials: true
         })
       .withAutomaticReconnect()

@@ -7,6 +7,7 @@ import { MatDialog, MatDialogModule  } from '@angular/material/dialog';
 import { MatButtonModule } from '@angular/material/button';
 import { ComposeMessageComponent } from './compose-message.component';
 import { ChangeDetectorRef } from '@angular/core';
+import { AuthService } from '../../services/auth.service';
 // Individual Chat Component
 
 @Component({
@@ -22,7 +23,7 @@ import { ChangeDetectorRef } from '@angular/core';
 })
 export class ChatsComponent {
 
-  currentUser = 'user_002'; // temporary hardcoded
+  currentUser = ''; // temporary hardcoded
 
   newMessage = '';
 
@@ -38,10 +39,12 @@ export class ChatsComponent {
     private http: HttpClient,
     private signalrService: SignalrService,
     private dialog: MatDialog,
-    private cdr: ChangeDetectorRef
+    private cdr: ChangeDetectorRef,
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
+    this.currentUser = this.authService.userName; 
     this.signalrService.startConnection();
     this.loadChats();
     this.applyFilter();
@@ -82,7 +85,7 @@ export class ChatsComponent {
   }
 
   loadChats() {
-    this.http.get<any>('http://localhost:5144/api/messages/user_002').subscribe(res => {
+    this.http.get<any>(`http://localhost:5144/api/messages/${this.currentUser}`).subscribe(res => {
       // res is the API response dictionary
       console.log("res: ", res)
       this.chats = Object.keys(res).map(key => {

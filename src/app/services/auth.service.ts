@@ -26,11 +26,23 @@ export class AuthService {
     return this.getRole() === 'user';
   }
 
-  getUserId(): string | null {
-    const token = localStorage.getItem('token');
+  get user() {
+    const token = sessionStorage.getItem('token');
     if (!token) return null;
 
     const decoded: any = jwtDecode(token);
-    return decoded.id;
+    return {
+      id: decoded.id?.toLowerCase(),
+      username: decoded?.username?.toLowerCase(),
+      role: decoded?.role.toLowerCase()
+    };
+  }
+
+  get userName() {
+    const token = sessionStorage.getItem('token');
+    if (!token) return null;
+
+    const decoded: any = jwtDecode(token);
+    return decoded.username?.toLowerCase();
   }
 }
