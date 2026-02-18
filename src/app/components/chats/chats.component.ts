@@ -43,51 +43,55 @@ export class ChatsComponent {
     private authService: AuthService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void  {
     this.currentUser = this.authService.userName; 
-    this.signalrService.startConnection();
+    this.signalrService.startConnection(this.currentUser);
     this.loadChats();
     this.applyFilter();
 
-    this.signalrService.onReceiveMessage((message) => {
+    this.signalrService.messages$.subscribe(msg => {
+      if (!msg) return;
 
-      console.log("New message received: ", message);
+      const { user, message } = msg;
 
-      // find existing conversation
-      const chat = this.chats.find(c => c.name === message.senderId);
-
-      if (!chat) return;
+      // Find the chat with this user
+      let chat = this.chats.find(c => c.name === user);
 
       const newMsg = {
-        sender: message.senderId,
-        text: message.messageBody,
-        createdAt: message.createdAt
+        sender: user,
+        text: message,
+        createdAt: new Date()
       };
 
-      // update messages (new reference → UI refresh)
-      chat.messages = [...chat.messages, newMsg];
-      chat.lastMessage = message.messageBody;
+      if (chat) {
+        // Append message
+        chat.messages.push(newMsg);
+        chat.lastMessage = message;
+      } else {
+        // Create new chat if it doesn't exist
+        chat = {
+          name: user,
+          messages: [newMsg],
+          lastMessage: message
+        };
+        this.chats.unshift(chat);
+      }
 
-      // move chat to top
-      this.chats = [chat, ...this.chats.filter(c => c !== chat)];
+      // Update sent/received lists
+      this.sentChats = this.chats.filter(c => c.messages[c.messages.length-1].sender === this.currentUser);
+      this.receivedChats = this.chats.filter(c => c.messages[c.messages.length-1].sender !== this.currentUser);
 
-      // refresh tabs + UI
-      this.sentChats = this.chats.filter(c => 
-        c.messages[c.messages.length - 1].sender === this.currentUser
-      );
-
-      this.receivedChats = this.chats.filter(c => 
-        c.messages[c.messages.length - 1].sender !== this.currentUser
-      );
-
+      // Apply filter to update filteredChats
       this.applyFilter();
+
+      // Trigger Angular change detection
+      this.cdr.detectChanges();
     });
   }
 
   loadChats() {
     this.http.get<any>(`http://localhost:5144/api/messages/${this.currentUser}`).subscribe(res => {
       // res is the API response dictionary
-      console.log("res: ", res)
       this.chats = Object.keys(res).map(key => {
         const messages = res[key].map((m: any) => ({
           sender: m.senderId,
@@ -98,9 +102,6 @@ export class ChatsComponent {
 
         // Determine the other participant (not current user)
         const ids = key.split('/');
-        console.log(
-         ids
-        )
         const otherUserId = ids[0] === this.currentUser ? ids[1] : ids[0];
 
         return {
@@ -117,16 +118,12 @@ export class ChatsComponent {
         return new Date(lastB).getTime() - new Date(lastA).getTime();
       });
 
-      console.log("this.chats: ", this.chats);
 
       this.sentChats = this.chats.filter(chat => {
         const lastMsg = chat.messages[chat.messages.length - 1];
         return lastMsg.sender === this.currentUser;
       });
 
-      console.log(
-        "sentChats: ", this.sentChats
-      );
 
       
 
@@ -135,9 +132,6 @@ export class ChatsComponent {
         return lastMsg.sender !== this.currentUser;
       });
 
-      console.log(
-        "receivedChats: ", this.receivedChats
-      );
 
       this.changeTab('all')
     });
@@ -149,11 +143,7 @@ export class ChatsComponent {
   }
 
   applyFilter() {
-    console.log("apply filter function called")
-    console.log("chats", this.chats);
-    console.log("selectedChat: ", this.selectedChat)
     if (this.selectedTab === 'all') {
-      console.log("all tab is selcted")
       this.filteredChats = this.chats;
     } 
     else if (this.selectedTab === 'received') {
@@ -191,7 +181,7 @@ export class ChatsComponent {
 
   this.http.post('http://localhost:5144/api/messages/send', payload)
     .subscribe(() => {
-
+      this.signalrService.sendMessage(receiverId, this.currentUser, messageText);
       const newMsg = {
         sender: this.currentUser,
         text: messageText,
